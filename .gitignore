@@ -1,0 +1,8 @@
+BRIEF.md
+PAYMENT.md
+CLAIM.md
+OUTREACH.md
+.obsidian/
+*.pyc
+__pycache__/
+.claude/

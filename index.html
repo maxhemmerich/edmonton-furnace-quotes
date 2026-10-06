@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Furnace replacement quotes in Edmonton — request a written price</title>
+<meta name="description" content="Request a furnace replacement or furnace repair quote in Edmonton. One short form, sent to Edmonton heating contractors who do that work. Not a contractor ourselves — a quote-request service.">
+<meta name="robots" content="index,follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<link rel="canonical" href="https://maxhemmerich.github.io/edmonton-furnace-quotes/">
+<meta property="og:title" content="Furnace replacement quotes in Edmonton">
+<meta property="og:description" content="One form. Sent to Edmonton heating contractors who do furnace replacement and repair.">
+<meta property="og:type" content="website">
+</head>
+<body>
+
+<div class="top">
+  <div class="wrap">
+    <span class="brand"><i class="spark"></i>Edmonton Furnace Quotes<small>YEG</small></span>
+    <nav>
+      <a href="#how">How it works</a>
+      <a href="#who">Who gets it</a>
+      <a href="contractors.html">For contractors</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+
+    <div>
+      <p class="eyebrow">Edmonton, Alberta · Furnace replacement &amp; repair</p>
+      <h1>Get a written furnace quote from an Edmonton heating contractor.</h1>
+      <p class="lede">Tell us what your furnace is doing and where you are. We send the request to heating
+        contractors in Edmonton that do that work, and they call you with a price. There is no charge to you.</p>
+
+      <ul class="checks">
+        <li><i class="tick"></i><span><strong class="d">One trade, one city.</strong> Furnaces and heating only, Edmonton only. Not a directory of everything.</span></li>
+        <li><i class="tick"></i><span><strong class="d">You keep the choice.</strong> You are never obligated to buy. Get the price, then decide.</span></li>
+        <li><i class="tick"></i><span><strong class="d">Minimum data.</strong> Name, contact, postal code, the job. Nothing else is asked for or passed on.</span></li>
+      </ul>
+
+      <div class="note cold small" style="margin-top:1.1rem">
+        <strong>Smell gas, or your CO alarm is going off?</strong> Leave the house and call 911. Do not wait on a
+        web form. If you have no heat at all, say so in the job box &mdash; those get routed first.
+      </div>
+    </div>
+
+    <div class="panel" id="request">
+      <div class="panel-head">
+        <h2>Request a furnace quote</h2>
+        <p class="small muted">Takes about a minute. No account, no charge.</p>
+      </div>
+
+      <form id="qform" novalidate>
+        <div class="field">
+          <label for="name">Your name</label>
+          <input id="name" name="name" type="text" autocomplete="name" placeholder="First and last name" required>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="780 555 0134" required>
+          </div>
+          <div class="field">
+            <label for="postal">Postal code</label>
+            <input id="postal" name="postal" type="text" autocomplete="postal-code" placeholder="T5K 1A1" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="email">Email <span style="text-transform:none;letter-spacing:0">(optional)</span></label>
+          <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com">
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label for="job">What do you need?</label>
+            <select id="job" name="job" required>
+              <option value="">Choose one</option>
+              <option>Furnace replacement</option>
+              <option>Furnace repair</option>
+              <option>No heat — urgent</option>
+              <option>Furnace tune-up or inspection</option>
+              <option>Thermostat or ductwork</option>
+              <option>Air conditioning</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="when">How soon?</label>
+            <select id="when" name="when">
+              <option>As soon as possible</option>
+              <option>Within a week</option>
+              <option>This month</option>
+              <option>Just pricing it for now</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="details">What is the furnace doing?</label>
+          <textarea id="details" name="details" placeholder="Make and rough age if you know it. What it's doing (short cycling, no heat upstairs, error code). Anything a technician would want to know before quoting." required></textarea>
+        </div>
+
+        <label class="consent" for="consent">
+          <input type="checkbox" id="consent" name="consent" required>
+          <span>Send my name, phone, email, postal code and job description to Max Hemmerich, who operates
+            this request service and passes it to Edmonton heating contractors. I can ask for it to be deleted at any time.</span>
+        </label>
+
+        <button class="btn" type="submit">Send my request</button>
+        <p class="err" id="err"></p>
+        <p class="small muted" style="margin-top:.6rem">No charge to you. Contractors pay us, if anything.</p>
+      </form>
+
+      <div class="result" id="result">
+        <span class="stamp">Request prepared</span>
+        <p class="small">Nothing has been sent yet &mdash; this page has no server to receive it. Open it in your
+          email app, or copy it and send it to <b>maxhemmerich@gmail.com</b>. One tap and it's done.</p>
+        <div class="field" style="margin-top:.7rem">
+          <label for="out">Your request</label>
+          <textarea id="out" readonly></textarea>
+        </div>
+        <div class="btn-row">
+          <a class="btn" id="mailto" href="#">Open in my email app</a>
+          <button class="btn ghost" type="button" id="copy">Copy the request</button>
+        </div>
+        <p class="small muted" style="margin-top:.7rem" id="copyNote"></p>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<section id="how">
+  <div class="wrap">
+    <p class="eyebrow">What happens after you send this</p>
+    <ol class="steps">
+      <li>
+        <h3>You send the request</h3>
+        <p class="muted small">Name, contact, postal code, and what the furnace is doing. That is the whole form.</p>
+      </li>
+      <li>
+        <h3>It goes to heating contractors who work in your part of Edmonton</h3>
+        <p class="muted small">Furnace replacement and repair, for the side of the city your postal code puts you on.
+          Not a national call centre, not a lead-blast to fifteen companies.</p>
+      </li>
+      <li>
+        <h3>You get called with a price</h3>
+        <p class="muted small">Expect a call or text. Ask for the price in writing and check whether permits and
+          the old furnace removal are in it. Then decide. You owe nobody anything for the quote.</p>
+      </li>
+    </ol>
+
+    <div class="note small">
+      <strong>Being straight with you:</strong> this is a new quote-request service in Edmonton, started in October
+      2026. If we cannot route your request to a contractor who can quote your job, we will email you and say so
+      rather than leave you waiting on it.
+    </div>
+  </div>
+</section>
+
+<section id="who">
+  <div class="wrap two">
+    <div>
+      <p class="eyebrow">Who receives your request</p>
+      <h2>One person, and then the contractors he sends it to.</h2>
+      <p class="muted">Your request goes to Max Hemmerich, who runs this service in Edmonton. He reads it and passes
+        it to heating contractors who do that work in your area. Nothing about you is published on this site, sold,
+        or added to a list you did not ask for.</p>
+      <p class="muted">Those contractors receive your name, phone number, email if you left one, postal code and the
+        job description. They receive it to quote the job. That is the only thing it is used for.</p>
+      <p class="small muted">Want it deleted, or want to know what is held? Write to
+        <a href="mailto:maxhemmerich@gmail.com">maxhemmerich@gmail.com</a> and it is removed.</p>
+    </div>
+    <div>
+      <p class="eyebrow">What we are not</p>
+      <h2>Not a contractor. Not a utility. Not a directory.</h2>
+      <ul class="checks" style="margin-top:.6rem">
+        <li><i class="tick"></i><span>We do not install, repair or service furnaces, and we do not quote for them. Licensed
+          contractors do that.</span></li>
+        <li><i class="tick"></i><span>We are not connected to any gas utility or government body, and we do not speak for one.</span></li>
+        <li><i class="tick"></i><span>We do not rank contractors or take a cut of your repair bill. Contractors pay a flat
+          price if they choose to receive requests &mdash; that is the whole business.</span></li>
+      </ul>
+      <p class="small muted" style="margin-top:1rem">Check any contractor's Alberta licence and their standing before you
+        sign anything. Ask for it &mdash; a licensed contractor will hand it over without blinking.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="frow">
+      <span>Edmonton Furnace Quotes &mdash; a quote-request service in Edmonton, Alberta.</span>
+      <span>Run by Max Hemmerich &middot; <a href="mailto:maxhemmerich@gmail.com">maxhemmerich@gmail.com</a></span>
+    </div>
+    <p class="small" style="margin-top:.8rem;max-width:60em">We collect the minimum: name, contact details, postal code and
+      the job you described. It is passed to Edmonton heating contractors so they can quote the work, and used for
+      nothing else. No lists, no resale, no automated marketing. Deletion on request.</p>
+    <p class="small" style="margin-top:.6rem">Hiring a heating contractor? <a href="contractors.html">See how the requests
+      work on the contractor side &rarr;</a></p>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
