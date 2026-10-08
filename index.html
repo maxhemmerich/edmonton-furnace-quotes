@@ -55,7 +55,13 @@
         <p class="small muted">Takes about a minute. No account, no charge.</p>
       </div>
 
-      <form id="qform" novalidate>
+      <div class="note small" style="margin:0 0 1rem">
+        <strong>This page has no server.</strong> When you press the button below, this page builds your
+        request and opens it in your own email app, addressed to <b>maxhemmerich@gmail.com</b>. You press
+        Send in that app &mdash; nothing leaves this page until you do.
+      </div>
+
+      <form id="qform" action="mailto:maxhemmerich@gmail.com" method="post" enctype="text/plain" novalidate>
         <div class="field">
           <label for="name">Your name</label>
           <input id="name" name="name" type="text" autocomplete="name" placeholder="First and last name" required>
@@ -68,7 +74,9 @@
           </div>
           <div class="field">
             <label for="postal">Postal code</label>
-            <input id="postal" name="postal" type="text" autocomplete="postal-code" placeholder="T5K 1A1" required>
+            <input id="postal" name="postal" type="text" autocomplete="postal-code" placeholder="T5K 1A1" aria-describedby="postal-help" required>
+            <p class="small muted" id="postal-help" style="margin:.3rem 0 0">Edmonton only &mdash; T5A&ndash;T6X, plus T7X,
+              T8A, T8B, T8N, T9E. Outside those codes we cannot route your request to an Edmonton contractor.</p>
           </div>
         </div>
 
@@ -112,15 +120,24 @@
             this request service and passes it to Edmonton heating contractors. I can ask for it to be deleted at any time.</span>
         </label>
 
-        <button class="btn" type="submit">Send my request</button>
+        <noscript>
+          <div class="note small" style="margin:.2rem 0 .9rem">
+            <strong>JavaScript is off in your browser.</strong> This form uses it to build the request, so
+            pressing the button opens your email app with the fields you filled in &mdash; send that to
+            <b>maxhemmerich@gmail.com</b>. Or email us directly with your name, phone, postal code and what
+            the furnace is doing. Coverage is Edmonton only (T5A&ndash;T6X, T7X, T8A, T8B, T8N, T9E).
+          </div>
+        </noscript>
+        <button class="btn" type="submit">Prepare my request email</button>
         <p class="err" id="err"></p>
         <p class="small muted" style="margin-top:.6rem">No charge to you. Contractors pay us, if anything.</p>
       </form>
 
       <div class="result" id="result">
-        <span class="stamp">Request prepared</span>
-        <p class="small">Nothing has been sent yet &mdash; this page has no server to receive it. Open it in your
-          email app, or copy it and send it to <b>maxhemmerich@gmail.com</b>. One tap and it's done.</p>
+        <span class="stamp">Request prepared &mdash; not sent yet</span>
+        <p class="small">Nothing has been sent yet &mdash; this page has no server, so the sending happens in
+          your email app. Tap <b>Open in my email app</b> and press Send, or copy the request and email it to
+          <b>maxhemmerich@gmail.com</b>. Nothing reaches us until you do that.</p>
         <div class="field" style="margin-top:.7rem">
           <label for="out">Your request</label>
           <textarea id="out" readonly></textarea>
