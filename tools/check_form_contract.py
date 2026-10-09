@@ -19,6 +19,12 @@
 #   * assets/app.js prevents the form's own submit and Enter key, and drives #prepare
 #   * the result panel offers #mailto, #copy and #save
 #   * assets/styles.css hides .no-js #prepare (no dead control for a JavaScript-off visitor)
+#
+# and, since 2026-10-09 ~10:30, the last-step length contract:
+#   * index.html carries #sentNote (the mail-app instruction) and #longNote (hidden by default)
+#   * assets/app.js measures the composed mailto: link against LONG_LINK and, past it, sets
+#     .long on the panel, swaps #sentNote for #longNote, and never shortens the request itself
+#   * assets/app.js moves #mailto behind #copy and #save in the DOM in the .long state
 import os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -62,6 +68,25 @@ for ident in ("mailto", "copy", "save"):
 
 check(re.search(r"\.no-js\s+#prepare\s*\{[^}]*display\s*:\s*none", css) is not None,
       "styles.css hides .no-js #prepare (no dead control without JavaScript)")
+
+# ---- the last-step length contract (the mailto: handoff must not fail silently) ----
+res_panel = html[html.find('id="result"'):] if 'id="result"' in html else ""
+res_panel = res_panel[:res_panel.find("</div>\n\n") if "</div>\n\n" in res_panel else len(res_panel)]
+check('id="sentNote"' in res_panel, "the result panel's mail-app instruction carries id=sentNote")
+check(re.search(r'<p[^>]*id="longNote"[^>]*\bhidden\b', res_panel) is not None,
+      "the result panel carries #longNote, hidden by default")
+check("LONG_LINK" in js and re.search(r"href\.length\s*>\s*LONG_LINK", js) is not None,
+      "app.js measures the composed mailto: link against LONG_LINK")
+check('classList.toggle("long", ' in js, "app.js marks the result panel .long when the link is too long")
+check("sentNote.hidden" in js and "longNote.hidden" in js,
+      "app.js swaps #sentNote for #longNote past that length")
+check(re.search(r'encodeURIComponent\(msg\.body\)', js) is not None and "slice" not in js.split("var href =")[1][:220],
+      "the composed request is still passed whole into the link (never trimmed to fit)")
+check(re.search(r"\.longnote\s*\{", css) is not None, "styles.css styles the long-request note")
+check("appendChild(mailLink)" in js and "insertBefore(mailLink" in js,
+      "app.js moves #mailto behind #copy/#save in the DOM when the link is too long (and back)")
+check(".result.long #copy" in css and ".result.long #save" in css,
+      "styles.css marks the two client-independent controls in the .long state")
 
 for p in passes:
     print("  ok    %s" % p)

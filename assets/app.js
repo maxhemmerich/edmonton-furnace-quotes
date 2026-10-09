@@ -25,6 +25,19 @@
   var copyNote = document.getElementById("copyNote");
   var prepBtn = document.getElementById("prepare");
   var saveBtn = document.getElementById("save");
+  var longNote = document.getElementById("longNote");
+  var sentNote = document.getElementById("sentNote");
+  var btnRow = document.querySelector("#result .btn-row");
+
+  // Some mail apps and phones refuse a mailto: link much past ~2,000 characters and fail
+  // silently: the tap appears to do nothing and the lead is lost with no error anywhere.
+  // Measured by hand on this site: a homeowner who writes a paragraph about the furnace
+  // composes a link of 2,050-2,236 characters, and a phone with no mail app or a desktop
+  // with Outlook will not open one that size. The composed request itself is never
+  // shortened. Instead, past this length the panel says so and the two controls that need
+  // no mail app at all - Copy and Save - come first, so the visitor is not left tapping a
+  // control that cannot work.
+  var LONG_LINK = 1800;
 
   function fail(msg, where) {
     err.textContent = msg;
@@ -115,9 +128,32 @@
 
     var msg = build(d);
     out.value = "To: " + TO + "\nSubject: " + msg.subject + "\n\n" + msg.body;
-    mailLink.href = "mailto:" + TO +
+    var href = "mailto:" + TO +
       "?subject=" + encodeURIComponent(msg.subject) +
       "&body=" + encodeURIComponent(msg.body);
+    mailLink.href = href;
+
+    // The request the contractor receives is never trimmed to fit a link. The link is what
+    // has to give: past LONG_LINK the mail-app handoff is the unreliable path, so say so and
+    // put Copy and Save first - by moving the control in the DOM, not by CSS order, so that
+    // what a screen reader and the Tab key walk is the same order the page shows.
+    var tooLong = href.length > LONG_LINK;
+    result.classList.toggle("long", tooLong);
+    if (sentNote) { sentNote.hidden = tooLong; }
+    if (longNote) {
+      longNote.hidden = !tooLong;
+      // The one sentence the visitor has to act on: the control names are in bold so the
+      // two that work are unmistakable. Only the measured link length is interpolated.
+      longNote.innerHTML = tooLong ? "Your request is long \u2014 " +
+        href.length.toLocaleString("en-CA") + " characters as an email link. Some email apps and phones will " +
+        "not open a link that size, and the tap does nothing. Nothing has been sent yet: use " +
+        "<b>Copy the request</b> or <b>Save the request to a file</b>, then send it to " + TO +
+        " \u2014 both carry this same request and cannot fail this way." : "";
+    }
+    if (btnRow) {
+      if (tooLong) { btnRow.appendChild(mailLink); }
+      else { btnRow.insertBefore(mailLink, btnRow.firstChild); }
+    }
 
     result.classList.add("on");
     out.scrollIntoView({ block: "nearest" });

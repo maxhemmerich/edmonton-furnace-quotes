@@ -143,9 +143,10 @@
 
       <div class="result" id="result">
         <span class="stamp">Request prepared &mdash; not sent yet</span>
-        <p class="small">Nothing has been sent yet &mdash; this page has no server, so the sending happens in
+        <p class="small" id="sentNote">Nothing has been sent yet &mdash; this page has no server, so the sending happens in
           your email app. Tap <b>Open in my email app</b> and press Send, or copy the request and email it to
           <b>maxhemmerich@gmail.com</b>. Nothing reaches us until you do that.</p>
+        <p class="longnote" id="longNote" hidden></p>
         <div class="field" style="margin-top:.7rem">
           <label for="out">Your request</label>
           <textarea id="out" readonly></textarea>

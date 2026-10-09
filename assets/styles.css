@@ -221,6 +221,32 @@ input::placeholder,textarea::placeholder{ color:#5E7385; }
   display:inline-block; padding:.25rem .5rem; margin-bottom:.7rem;
 }
 
+/* A composed request can be longer than a mail app will open as a mailto: link (some
+   clients and phones stop around 2,000 characters, and they fail silently). Past that
+   length app.js marks the panel .long: the panel's own note replaces the mail-app
+   instruction, and the two controls that carry the request without any mail app - Copy
+   and Save - are moved in front of it, so no visitor is left tapping a control that
+   cannot work. Short requests are untouched: neither rule below matches unless .long is
+   set, and the control order is moved in the DOM by app.js, not by CSS. */
+.longnote{
+  border-left:2px solid var(--warn); background:#150F07;
+  padding:.7rem .85rem; margin:.2rem 0 .9rem; font-size:.84rem;
+}
+.longnote[hidden], .result #sentNote[hidden]{ display:none; }
+.longnote b{ color:var(--text); }
+/* Visual weight follows reliability in the .long state: Copy becomes the solid control,
+   Save stays a ghost, and the mail-app link steps back to a plain one - it is still there
+   for the clients that can open a long link, it just no longer looks like the safe tap. */
+.result.long #copy{
+  background:var(--heat); color:#1A1206; border:1px solid #7A5117;
+  box-shadow:4px 4px 0 #1E2A38; font-weight:800;
+}
+.result.long #save{ color:var(--heat); border-color:var(--heat); }
+.result.long #mailto{
+  background:transparent; color:var(--muted); border:1px solid var(--line-2);
+  box-shadow:none; font-weight:700;
+}
+
 /* ---------- sections ---------- */
 section{ padding:clamp(1.8rem,4vw,3rem) 0; border-top:1px solid var(--line); }
 .steps{ list-style:none; margin:1rem 0 0; padding:0; counter-reset:s; }
