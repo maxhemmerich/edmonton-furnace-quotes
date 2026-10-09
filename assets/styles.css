@@ -206,6 +206,11 @@ input::placeholder,textarea::placeholder{ color:#5E7385; }
 .err{ color:var(--warn); font-size:.82rem; margin:.55rem 0 0; display:none; }
 .err.on{ display:block; }
 
+/* The submit control is inert without JavaScript (app.js drives it), so hide it when the
+   no-js class is present and let the noscript block's own mailto link stand in its place.
+   This keeps a JavaScript-off visitor from pressing a control that cannot do anything. */
+.no-js #prepare{ display:none; }
+
 /* ---------- result panel ---------- */
 .result{ display:none; }
 .result.on{ display:block; }

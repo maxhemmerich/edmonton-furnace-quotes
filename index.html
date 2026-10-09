@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en-CA">
+<html lang="en-CA" class="no-js">
 <head>
+<script>document.documentElement.className="js";</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Furnace replacement quotes in Edmonton — request a written price</title>
@@ -68,7 +69,7 @@
         Send in that app &mdash; nothing leaves this page until you do.
       </div>
 
-      <form id="qform" action="mailto:maxhemmerich@gmail.com" method="post" enctype="text/plain" novalidate>
+      <form id="qform" novalidate>
         <div class="field">
           <label for="name">Your name</label>
           <input id="name" name="name" type="text" autocomplete="name" placeholder="First and last name" required>
@@ -129,13 +130,13 @@
 
         <noscript>
           <div class="note small" style="margin:.2rem 0 .9rem">
-            <strong>JavaScript is off in your browser.</strong> This form uses it to build the request, so
-            pressing the button opens your email app with the fields you filled in &mdash; send that to
-            <b>maxhemmerich@gmail.com</b>. Or email us directly with your name, phone, postal code and what
+            <strong>JavaScript is off in your browser,</strong> so this page cannot build the request from
+            the form for you. Send it to us by email instead, with your name, phone, postal code and what
             the furnace is doing. Coverage is Edmonton only (T5A&ndash;T6X, T7X, T8A, T8B, T8N, T9E).
           </div>
+          <a class="btn" href="mailto:maxhemmerich@gmail.com?subject=Furnace%20quote%20request&amp;body=Name%3A%20%0D%0APhone%3A%20%0D%0APostal%20code%3A%20%0D%0ATiming%3A%20%0D%0AWhat%20the%20furnace%20is%20doing%3A%20%0D%0A">Email your request to maxhemmerich@gmail.com</a>
         </noscript>
-        <button class="btn" type="submit">Prepare my request email</button>
+        <button class="btn" type="button" id="prepare">Prepare my request email</button>
         <p class="err" id="err"></p>
         <p class="small muted" style="margin-top:.6rem">No charge to you. Contractors pay us, if anything.</p>
       </form>
@@ -152,6 +153,7 @@
         <div class="btn-row">
           <a class="btn" id="mailto" href="#">Open in my email app</a>
           <button class="btn ghost" type="button" id="copy">Copy the request</button>
+          <button class="btn ghost" type="button" id="save">Save the request to a file</button>
         </div>
         <p class="small muted" style="margin-top:.7rem" id="copyNote"></p>
       </div>

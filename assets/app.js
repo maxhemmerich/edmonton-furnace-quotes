@@ -1,6 +1,14 @@
 /* Edmonton Furnace Quotes — form handling.
    No server. The request is composed locally and handed to the visitor's mail app,
-   or copied to the clipboard. Nothing is sent until the visitor acts. */
+   copied to the clipboard, or saved as a file. Nothing is sent until the visitor acts.
+
+   The form must never submit natively. A native submission whose target is the mailto:
+   address is what a browser turns into its full-page "the information you're about to
+   submit is not secure" warning, and a native POST to the page URL is a 405 on GitHub
+   Pages — both lose the lead. So the "Prepare my request email" control is a
+   button[type=button] driven from here, and index.html carries no action/method/enctype
+   on the form. With JavaScript off the button is hidden and the noscript block's own
+   plain mailto: link (a link, never a form submit) is the path. */
 
 (function () {
   "use strict";
@@ -15,6 +23,8 @@
   var mailLink = document.getElementById("mailto");
   var copyBtn = document.getElementById("copy");
   var copyNote = document.getElementById("copyNote");
+  var prepBtn = document.getElementById("prepare");
+  var saveBtn = document.getElementById("save");
 
   function fail(msg, where) {
     err.textContent = msg;
@@ -78,8 +88,9 @@
     return { subject: subject, body: lines.join("\n") };
   }
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
+  // Every path into composing the request lands here. Nothing here submits anything:
+  // the composed text is placed in the page and offered to the visitor.
+  function submitRequest() {
     clearErr();
 
     var d = {
@@ -104,6 +115,16 @@
     result.classList.add("on");
     out.scrollIntoView({ block: "nearest" });
     copyNote.textContent = "";
+  }
+
+  // The control, the form's submit event and the Enter key all land in submitRequest,
+  // and each one is stopped from becoming a real (insecure) form submission.
+  if (prepBtn) { prepBtn.addEventListener("click", submitRequest); }
+  form.addEventListener("submit", function (e) { e.preventDefault(); submitRequest(); });
+  form.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && e.target && e.target.tagName !== "TEXTAREA") {
+      e.preventDefault(); submitRequest();
+    }
   });
 
   copyBtn.addEventListener("click", function () {
@@ -121,4 +142,26 @@
       navigator.clipboard.writeText(text).then(done, manual);
     } else { manual(); }
   });
+
+  // A third delivery path, independent of both the mail app and the clipboard: the visitor
+  // leaves with the composed request as a plain .txt they can email or hand over any way.
+  if (saveBtn) {
+    saveBtn.addEventListener("click", function () {
+      var text = out.value;
+      try {
+        var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = "furnace-request.txt";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+        copyNote.textContent = "Saved as furnace-request.txt — email it to " + TO + " whenever you like.";
+      } catch (e) {
+        copyNote.textContent = "Could not save the file. Select the text above, copy it, and email it to " + TO + ".";
+      }
+    });
+  }
 })();
