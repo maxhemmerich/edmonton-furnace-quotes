@@ -28,6 +28,34 @@
   var longNote = document.getElementById("longNote");
   var sentNote = document.getElementById("sentNote");
   var btnRow = document.querySelector("#result .btn-row");
+  var jobSel = document.getElementById("job");
+
+  // Intent hand-off. A visitor who arrived from one of the single-intent pages has already
+  // answered "what do you need?" on that page; pre-select it here so the one decision the page
+  // already made is not asked a second time. This removes a step on the highest-intent path the
+  // site has, and it makes the request carry the job the visitor actually read about. Only the
+  // four unambiguous single-intent pages are mapped: repair-or-replace, the quote checklist, the
+  // rebates page and the permit page are deliberately left alone, because their readers have not
+  // committed to one job and a guess there would be wrong more often than right. It runs once at
+  // load, before any choice, and a value the visitor picks is never overwritten (it bails if the
+  // select is already set). Nothing here sends anything; it only changes which option is shown.
+  var FROM_PAGE_JOB = {
+    "no-heat.html": "No heat \u2014 urgent",
+    "furnace-repair.html": "Furnace repair",
+    "furnace-replacement.html": "Furnace replacement",
+    "furnace-tune-up.html": "Furnace tune-up or inspection"
+  };
+  (function prefillJobFromReferrer() {
+    if (!jobSel || jobSel.value) { return; }
+    var ref = "";
+    try { ref = document.referrer || ""; } catch (e) { ref = ""; }
+    var leaf = ref.split("#")[0].split("?")[0].split("/").pop().toLowerCase();
+    var want = FROM_PAGE_JOB[leaf];
+    if (!want) { return; }
+    for (var i = 0; i < jobSel.options.length; i++) {
+      if (jobSel.options[i].value === want) { jobSel.value = want; return; }
+    }
+  })();
 
   // Some mail apps and phones refuse a mailto: link much past ~2,000 characters and fail
   // silently: the tap appears to do nothing and the lead is lost with no error anywhere.
