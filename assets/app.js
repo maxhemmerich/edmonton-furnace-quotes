@@ -43,9 +43,16 @@
   // Coverage gate — the same rule contractors.html states ("The postal code is in your coverage area"):
   // Edmonton T5A–T6X plus T7X, T8A, T8B, T8N, T9E. A request from outside these can never be a billable
   // lead, so it is refused at the field with the reason, not accepted and quietly dropped.
+  //
+  // The FSA is also checked against the codes that can actually exist: in a Canadian postal code the third
+  // character is never D, F, I, O, Q or U, so T5D, T6D and the like are not real codes and are refused here
+  // rather than carried in as a request. This keeps the gate exactly the set service-areas.html lists — every
+  // code on that page is accepted, and every code that is not (including one that cannot exist) is refused.
+  var NOT_IN_FSA = "DFIOQU";
   function inCoverage(postal) {
     var fsa = (postal || "").replace(/\s+/g, "").toUpperCase().slice(0, 3);
     if (!/^[A-Z][0-9][A-Z]$/.test(fsa)) return false;
+    if (NOT_IN_FSA.indexOf(fsa.charAt(2)) !== -1) return false;
     if (/^T5[A-Z]$/.test(fsa)) return true;
     if (/^T6[A-X]$/.test(fsa)) return true;
     return ["T7X", "T8A", "T8B", "T8N", "T9E"].indexOf(fsa) !== -1;
