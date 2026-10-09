@@ -76,10 +76,12 @@ def save_one(url):
 
 
 def verify_one(url, attempts=5, wait=15):
-    """Ask the availability API, retrying: a fresh save is not indexed there instantly.
-    Return (ok, detail)."""
+    """Ask the availability API, retrying: a fresh save is not indexed there instantly, and the API
+    rate-limits a burst of queries (HTTP 429), so a 429 backs off harder rather than being read as
+    "no snapshot". Return (ok, detail)."""
     last = "no snapshot"
     for a in range(attempts):
+        backoff = wait
         try:
             r = http_get(AVAIL + urllib.parse.quote(url, safe=""), timeout=60)
             data = json.loads(r.read().decode("utf-8", "replace"))
@@ -88,10 +90,14 @@ def verify_one(url, attempts=5, wait=15):
             if closest.get("available") is True and closest.get("status") == "200":
                 return True, closest.get("timestamp")
             last = closest.get("timestamp") or "no snapshot"
+        except urllib.error.HTTPError as e:
+            last = "HTTP %s%s" % (e.code, " (rate limited)" if e.code == 429 else "")
+            if e.code == 429:
+                backoff = max(wait, 45)
         except Exception as e:
             last = "%s: %s" % (type(e).__name__, e)
         if a < attempts - 1:
-            time.sleep(wait)
+            time.sleep(backoff)
     return False, last
 
 
